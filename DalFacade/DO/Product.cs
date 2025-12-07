@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DO;
 
-namespace DO
+namespace DalFacede.DO
 {
-    internal record Product(int Id, string productName, Category Category, double Price, int stock);
+    public record Product(int Id, string productName, Category Category, double Price, int stock);
 
 }

@@ -5,10 +5,12 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using DO;
 
-namespace DO
+namespace DalFacede.DO
+
 {
-    internal class sale(int Id
+    public class Sale(int Id
         , int ProductId
         , int Required_quantity
         , double SalePrice,
