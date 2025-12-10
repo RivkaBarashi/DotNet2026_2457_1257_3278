@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
 
+
+
 namespace DO
 {
     /// <summary>
     /// ישות מבצע
-    /// בקצביה שלנו
+    /// בחנות איפור
     /// </summary>
     /// <param name="Id"></param>
     /// <param name="ProductId"></param>
@@ -35,4 +38,4 @@ namespace DO
         }
     }
 }
-﻿
+

@@ -16,7 +16,7 @@ namespace DO
     /// <param name="CustomerName"></param>
     /// <param name="Adress"></param>
     /// <param name="Phone"></param>
-    public record Customer//לשאול את המורה
+    public record Customer
         (
           int Id,
           string? CustomerName,
