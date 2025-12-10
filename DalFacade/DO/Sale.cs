@@ -1,22 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
 
-namespace DalFacede.DO
-
+namespace DO
 {
-    public class Sale(int Id
-        , int ProductId
-        , int Required_quantity
-        , double SalePrice,
-        bool IssaleToCustomer,
-        DateTime StartSale,
-        DateTime EndSale);
-
+    /// <summary>
+    /// ישות מבצע
+    /// בקצביה שלנו
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <param name="ProductId"></param>
+    /// <param name="QuantityRequier"></param>
+    /// <param name="SalePrice"></param>
+    /// <param name="IsSaleToCustomer"></param>
+    /// <param name="StartSale"></param>
+    /// <param name="EndSale"></param>
+    public record Sale
+        (
+          int Id,
+          int ProductId,
+          int QuantityRequier,
+          double? SalePrice,
+          bool IsSaleToCustomer,
+          DateTime? StartSale,
+          DateTime? EndSale
+        )
+    {
+        public Sale() : this(0, 0, 0, null, false, null, null)
+{
+        }
+    }
 }
 ﻿

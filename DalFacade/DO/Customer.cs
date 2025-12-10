@@ -5,9 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 
-namespace DalFacede.DO
 
+namespace DO
 {
-    public record Customer(int Id, string CustomerName, string Address, string PhoneNumber);
+    /// <summary>
+    /// ישות לקוח
+    /// בחנות איפור
+    /// </summary>
+    /// <param name="Id"></param>
+    /// <param name="CustomerName"></param>
+    /// <param name="Adress"></param>
+    /// <param name="Phone"></param>
+    public record Customer//לשאול את המורה
+        (
+          int Id,
+          string? CustomerName,
+          string? Adress,
+          string? Phone
+        )
+    {
+        public Customer() : this(0, null, null, null)
+{
 
+}
+    }
 }

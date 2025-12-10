@@ -1,2 +1,2 @@
 ﻿namespace DO;
-public enum Category { Face, Eye, Lips, Eyebrows, Skincare };
+public enum Categries { Meats, Poultry, Spices, Frozens, Fish }
