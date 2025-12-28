@@ -3,14 +3,14 @@ using DalApi;
 
 namespace Dal;
 
-public class CustomerImplementation : ICustomer
+internal class CustomerImplementation : ICustomer
 {
     public int Create(Customer item)
     {
         foreach (Customer i in DataSource.Customers)
         {
             if (item.Id == i.Id)
-                throw new Exception("קיים מוצר בקוד זה");
+                throw new Exception("exist project with this code");
         }
         //חיב לקבל משתנה מבצע עם מזהה קיים
         DataSource.Customers.Add(item);
@@ -42,7 +42,7 @@ public class CustomerImplementation : ICustomer
         return null;
     }
 
-    public List<Customer?> ReadAll()
+    public IEnumerable<Customer?> ReadAll()
     {
         return DataSource.Customers;
     }
@@ -58,6 +58,6 @@ public class CustomerImplementation : ICustomer
                 return;
             }
         }
-        throw new Exception("לא נמצא מבצע עם מזהה זה");
+        throw new Exception("not exsist ");
     }
 }

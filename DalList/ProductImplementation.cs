@@ -3,7 +3,7 @@ using DalApi;
 
 namespace Dal;
 
-public class ProductImplementation : IProduct
+internal class ProductImplementation : IProduct
 {
     public int Create(Product item)
     {
@@ -42,7 +42,7 @@ public class ProductImplementation : IProduct
         return null;
     }
 
-    public List<Product?> ReadAll()
+    public IEnumerable<Product?> ReadAll()
     {
         return DataSource.Products;
     }
