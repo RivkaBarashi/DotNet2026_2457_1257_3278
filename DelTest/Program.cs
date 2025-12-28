@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Dal;
 using DalApi;
-using Dal;
-using DO;
+using DalFacade.DalApi;
 using DelTest;
+using DO;
+using System;
 
 namespace DalTest;
 
 class Program
 {
-    // Data access variables (through interfaces)
-    static ICustomer dalCustomer = new CustomerImplementation();
-    static IProduct dalProduct = new ProductImplementation();
-    static ISale dalSale = new SaleImplementation();
-
+    static IDal s_dal = new DalList();
+    static ICustomer dalCustomer = s_dal.Customer;
+    static IProduct dalProduct = s_dal.Product;
+    static ISale dalSale = s_dal.Sale;
+     
     static void Main()
     {
-        // Initialize data
-        Initialization.Initialize(dalCustomer, dalProduct, dalSale);
+        Initialization.Initialize(s_dal);
 
         int mainChoice;
 
@@ -50,6 +50,26 @@ class Program
 
         } while (mainChoice != 0);
     }
+
+    static T? ReadEntity<T>(ICrud<T> dal, int id)
+    {
+        return dal.Read(id);
+    }
+
+    static IEnumerable<T?> ReadAllEntities<T>(ICrud<T> dal)
+    {
+        return dal.ReadAll();
+    }
+
+    static void DeleteEntity<T>(ICrud<T> dal, int id)
+    {
+        dal.Delete(id);
+    }
+
+
+
+
+
 
     // ===== Main menu =====
     static void ShowMainMenu()
@@ -97,7 +117,7 @@ class Program
     }
 
     // ===== Customer actions =====
-
+   
     static void CreateCustomer()
     {
         try
@@ -132,7 +152,7 @@ class Program
             Console.Write("Enter ID: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            Customer? c = dalCustomer.Read(id);
+            Customer? c = ReadEntity(s_dal.Customer, id);
 
             if (c == null)
                 Console.WriteLine("Not found");
@@ -147,7 +167,7 @@ class Program
 
     static void ReadAllCustomers()
     {
-        List<Customer?> list = dalCustomer.ReadAll();
+        IEnumerable<Customer?> list = ReadAllEntities(s_dal.Customer);
 
         foreach (var c in list)
             Console.WriteLine(c);
@@ -187,7 +207,7 @@ class Program
             Console.Write("Enter ID to delete: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            dalCustomer.Delete(id);
+            DeleteEntity(s_dal.Customer, id);
             Console.WriteLine("Deleted successfully");
         }
         catch (Exception ex)
@@ -238,6 +258,8 @@ class Program
         } while (choice != 0);
     }
 
+
+   
     // ===== CRUD functions for Product =====
     static void CreateProduct()
     {
@@ -277,7 +299,7 @@ class Program
             Console.Write("Enter ID: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            Product? p = dalProduct.Read(id);
+            Product? p = ReadEntity(s_dal.Product, id);
             if (p == null)
                 Console.WriteLine("Not found");
             else
@@ -291,8 +313,7 @@ class Program
 
     static void ReadAllProducts()
     {
-        List<Product?> list = dalProduct.ReadAll();
-        foreach (var p in list)
+        foreach (var p in ReadAllEntities(s_dal.Product))
             Console.WriteLine(p);
     }
 
@@ -334,7 +355,7 @@ class Program
             Console.Write("Enter ID to delete: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            dalProduct.Delete(id);
+            DeleteEntity(s_dal.Product, id);
             Console.WriteLine("Deleted successfully");
         }
         catch (Exception ex)
@@ -391,7 +412,7 @@ class Program
             Console.Write("Enter ID: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            Sale? s = dalSale.Read(id);
+            Sale? s = ReadEntity(s_dal.Sale, id);
             if (s == null)
                 Console.WriteLine("Not found");
             else
@@ -403,12 +424,13 @@ class Program
         }
     }
 
+
     static void ReadAllSales()
     {
-        List<Sale?> list = dalSale.ReadAll();
-        foreach (var s in list)
+        foreach (var s in ReadAllEntities(s_dal.Sale))
             Console.WriteLine(s);
     }
+
 
     static void UpdateSale()
     {
@@ -457,7 +479,7 @@ class Program
             Console.Write("Enter ID to delete: ");
             int.TryParse(Console.ReadLine(), out int id);
 
-            dalSale.Delete(id);
+            DeleteEntity(s_dal.Sale, id);
             Console.WriteLine("Deleted successfully");
         }
         catch (Exception ex)

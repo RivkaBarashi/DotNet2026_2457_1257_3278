@@ -4,7 +4,7 @@ using DalApi;
 
 namespace Dal;
 
-public class SaleImplementation : ISale
+internal class SaleImplementation : ISale
 {
     public int Create(Sale item)
     {

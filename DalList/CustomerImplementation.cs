@@ -3,7 +3,7 @@ using DalApi;
 
 namespace Dal;
 
-public class CustomerImplementation : ICustomer
+internal class CustomerImplementation : ICustomer
 {
     public int Create(Customer item)
     {
@@ -58,6 +58,6 @@ public class CustomerImplementation : ICustomer
                 return;
             }
         }
-        throw new Exception("לא נמצא מבצע עם מזהה זה");
+        throw new Exception("not exsist ");
     }
 }
