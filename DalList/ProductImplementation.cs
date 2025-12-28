@@ -3,36 +3,36 @@ using DalApi;
 
 namespace Dal;
 
-public class CustomerImplementation : ICustomer
+public class ProductImplementation : IProduct
 {
-    public int Create(Customer item)
+    public int Create(Product item)
     {
-        foreach (Customer i in DataSource.Customers)
+        foreach (Product i in DataSource.Products)
         {
             if (item.Id == i.Id)
                 throw new Exception("קיים מוצר בקוד זה");
         }
         //חיב לקבל משתנה מבצע עם מזהה קיים
-        DataSource.Customers.Add(item);
+        DataSource.Products.Add(item);
         return item.Id;
     }
 
     public void Delete(int id)
     {
-        foreach (Customer item in DataSource.Customers)
+        foreach (Product item in DataSource.Products)
         {
             if (item.Id == id)
             {
-                DataSource.Customers.Remove(item);
+                DataSource.Products.Remove(item);
                 return;
             }
         }
         throw new Exception("this sale not found");
     }
 
-    public Customer? Read(int id)
+    public Product? Read(int id)
     {
-        foreach (Customer item in DataSource.Customers)
+        foreach (Product item in DataSource.Products)
         {
             if (item.Id == id)
             {
@@ -42,19 +42,19 @@ public class CustomerImplementation : ICustomer
         return null;
     }
 
-    public List<Customer?> ReadAll()
+    public List<Product?> ReadAll()
     {
-        return DataSource.Customers;
+        return DataSource.Products;
     }
 
-    public void Update(Customer item)
+    public void Update(Product item)
     {
-        foreach (Customer i in DataSource.Customers)
+        foreach (Product i in DataSource.Products)
         {
             if (item.Id == i.Id)
             {
-                DataSource.Customers.Remove(i);
-                DataSource.Customers.Add(item);
+                DataSource.Products.Remove(i);
+                DataSource.Products.Add(item);
                 return;
             }
         }

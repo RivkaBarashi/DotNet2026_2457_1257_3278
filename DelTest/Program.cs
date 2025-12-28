@@ -451,9 +451,9 @@ class Program
     }
 
     static void DeleteSale()
-{
-        try
     {
+        try
+        {
             Console.Write("Enter ID to delete: ");
             int.TryParse(Console.ReadLine(), out int id);
 

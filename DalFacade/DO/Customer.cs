@@ -25,8 +25,8 @@ namespace DO
         )
     {
         public Customer() : this(0, null, null, null)
-{
+        {
 
-}
+        }
     }
 }

@@ -27,8 +27,8 @@ namespace DO
     {
         public Product()
             : this(0, null, Categries.Fish, null, 0)
-{
+        {
 
-}
+        }
     }
 }

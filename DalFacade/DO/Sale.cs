@@ -34,7 +34,7 @@ namespace DO
         )
     {
         public Sale() : this(0, 0, 0, null, false, null, null)
-{
+        {
         }
     }
 }
