@@ -10,7 +10,7 @@ public class CustomerImplementation : ICustomer
         foreach (Customer i in DataSource.Customers)
         {
             if (item.Id == i.Id)
-                throw new Exception("קיים מוצר בקוד זה");
+                throw new Exception("exist project with this code");
         }
         //חיב לקבל משתנה מבצע עם מזהה קיים
         DataSource.Customers.Add(item);
@@ -42,7 +42,7 @@ public class CustomerImplementation : ICustomer
         return null;
     }
 
-    public List<Customer?> ReadAll()
+    public IEnumerable<Customer?> ReadAll()
     {
         return DataSource.Customers;
     }

@@ -43,7 +43,7 @@ public class SaleImplementation : ISale
         return null;
     }
 
-    public List<Sale?> ReadAll()
+    public IEnumerable<Sale?> ReadAll()
     {
         return DataSource.Sales;
     }

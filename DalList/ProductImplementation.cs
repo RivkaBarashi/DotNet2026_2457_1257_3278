@@ -42,7 +42,7 @@ public class ProductImplementation : IProduct
         return null;
     }
 
-    public List<Product?> ReadAll()
+    public IEnumerable<Product?> ReadAll()
     {
         return DataSource.Products;
     }
