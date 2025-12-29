@@ -19,8 +19,8 @@ namespace DelTest
 
         private static void CreateProducts()
         {
-            var product1 = new Product { Id = 100, ProductName = "Lipstick", Category = Categries.Spices, Price = 25.0, Stock = 10 };
-            var product2 = new Product { Id = 101, ProductName = "Eyeshadow", Category = Categries.Frozens, Price = 40.0, Stock = 5 };
+            var product1 = new Product { Id = 100, ProductName = "Lipstick", Category = Categries.Lips, Price = 25.0, Stock = 10 };
+            var product2 = new Product { Id = 101, ProductName = "Eyeshadow", Category = Categries.Eye, Price = 40.0, Stock = 5 };
 
             s_dal.Product.Create(product1);
             s_dal.Product.Create(product2);

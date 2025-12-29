@@ -10,7 +10,7 @@ internal class ProductImplementation : IProduct
         foreach (Product i in DataSource.Products)
         {
             if (item.Id == i.Id)
-                throw new Exception("קיים מוצר בקוד זה");
+                throw new Exception("There is a product with this code");
         }
         //חיב לקבל משתנה מבצע עם מזהה קיים
         DataSource.Products.Add(item);
@@ -58,6 +58,6 @@ internal class ProductImplementation : IProduct
                 return;
             }
         }
-        throw new Exception("לא נמצא מבצע עם מזהה זה");
+        throw new Exception("No operation found with this ID");
     }
 }

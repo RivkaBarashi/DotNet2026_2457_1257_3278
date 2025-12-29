@@ -11,7 +11,7 @@ internal class SaleImplementation : ISale
         foreach (Sale i in DataSource.Sales)
         {
             if (item.Id == i.Id)
-                throw new Exception("קיים מבצע בקוד זה");
+                throw new Exception("There is a promotion on this code");
         }
         //חיב לקבל משצנה מבצע עם מזהה קיים
         DataSource.Sales.Add(item);
@@ -59,6 +59,6 @@ internal class SaleImplementation : ISale
                 return;
             }
         }
-        throw new Exception("לא נמצא מבצע עם מזהה זה");
+        throw new Exception("No operation found with this ID");
     }
 }

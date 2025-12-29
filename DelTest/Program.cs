@@ -237,27 +237,7 @@ class Program
         } while (choice != 0);
     }
 
-    // ===== Sale menu =====
-    static void SaleMenu()
-    {
-        int choice;
-        do
-        {
-            ShowCrudMenu("Sales");
-            int.TryParse(Console.ReadLine(), out choice);
-
-            switch (choice)
-            {
-                case 1: CreateSale(); break;
-                case 2: ReadSale(); break;
-                case 3: ReadAllSales(); break;
-                case 4: UpdateSale(); break;
-                case 5: DeleteSale(); break;
-            }
-
-        } while (choice != 0);
-    }
-
+   
 
    
     // ===== CRUD functions for Product =====
@@ -271,7 +251,7 @@ class Program
             Console.Write("Enter Name: ");
             string name = Console.ReadLine()!;
 
-            Console.Write("Enter Category (0-Meats,1-Poultry,2-Spices,3-Frozens,4-Fish): ");
+            Console.Write("Enter Category (0-Face,1-Eye,2-Lips,3-Eyebrows,4-Skincare): ");
             int.TryParse(Console.ReadLine(), out int cat);
             Categries category = (Categries)cat;
 
@@ -327,7 +307,7 @@ class Program
             Console.Write("New Name: ");
             string name = Console.ReadLine()!;
 
-            Console.Write("New Category (0-Meats,1-Poultry,2-Spices,3-Frozens,4-Fish): ");
+            Console.Write("New Category (0-Face,1-Eye,2-Lips,3-Eyebrows,4-Skincare): ");
             int.TryParse(Console.ReadLine(), out int cat);
             Categries category = (Categries)cat;
 
@@ -363,6 +343,27 @@ class Program
             Console.WriteLine(ex.Message);
         }
     }
+    // ===== Sale menu =====
+    static void SaleMenu()
+    {
+        int choice;
+        do
+        {
+            ShowCrudMenu("Sales");
+            int.TryParse(Console.ReadLine(), out choice);
+
+            switch (choice)
+            {
+                case 1: CreateSale(); break;
+                case 2: ReadSale(); break;
+                case 3: ReadAllSales(); break;
+                case 4: UpdateSale(); break;
+                case 5: DeleteSale(); break;
+            }
+
+        } while (choice != 0);
+    }
+
 
     // ===== CRUD functions for Sale =====
     static void CreateSale()
