@@ -14,7 +14,7 @@ class Program
     static IProduct dalProduct = s_dal.Product;
     static ISale dalSale = s_dal.Sale;
      
-    static void Main()
+     static void Main()
     {
         Initialization.Initialize(s_dal);
 
@@ -65,13 +65,7 @@ class Program
     {
         dal.Delete(id);
     }
-
-
-
-
-
-
-    // ===== Main menu =====
+    //  Main menu
     static void ShowMainMenu()
     {
         Console.WriteLine("\n=== Main Menu ===");
@@ -82,7 +76,7 @@ class Program
         Console.Write("Select an option: ");
     }
 
-    // ===== Customer menu =====
+    //Customer menu
     static void CustomerMenu()
     {
         int choice;
@@ -104,7 +98,7 @@ class Program
         } while (choice != 0);
     }
 
-    static void ShowCrudMenu(string title)
+     static void ShowCrudMenu(string title)
     {
         Console.WriteLine($"\n=== {title} Menu ===");
         Console.WriteLine("1 - Add");
@@ -116,7 +110,7 @@ class Program
         Console.Write("Select action: ");
     }
 
-    // ===== Customer actions =====
+    // Customer actions
    
     static void CreateCustomer()
     {
@@ -216,7 +210,7 @@ class Program
         }
     }
 
-    // ===== Product menu =====
+    //Product menu
     static void ProductMenu()
     {
         int choice;
@@ -236,11 +230,7 @@ class Program
 
         } while (choice != 0);
     }
-
-   
-
-   
-    // ===== CRUD functions for Product =====
+    //  CRUD functions for Product 
     static void CreateProduct()
     {
         try
@@ -343,7 +333,7 @@ class Program
             Console.WriteLine(ex.Message);
         }
     }
-    // ===== Sale menu =====
+    // Sale menu 
     static void SaleMenu()
     {
         int choice;
@@ -365,7 +355,7 @@ class Program
     }
 
 
-    // ===== CRUD functions for Sale =====
+    //  CRUD functions for Sale 
     static void CreateSale()
     {
         try
