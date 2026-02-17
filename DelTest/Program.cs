@@ -3,7 +3,9 @@ using DalApi;
 using DalFacade.DalApi;
 using DelTest;
 using DO;
+using System.IO;
 using System;
+using Tools;
 
 namespace DalTest;
 
@@ -13,7 +15,10 @@ class Program
     static ICustomer dalCustomer = s_dal.Customer;
     static IProduct dalProduct = s_dal.Product;
     static ISale dalSale = s_dal.Sale;
-     
+  
+   
+
+
      static void Main()
     {
         Initialization.Initialize(s_dal);
@@ -37,6 +42,9 @@ class Program
 
                 case 3:
                     SaleMenu();
+                    break;
+                case 4:
+                    LogManager.DeleteInLog();
                     break;
 
                 case 0:
@@ -72,6 +80,7 @@ class Program
         Console.WriteLine("1 - Customers");
         Console.WriteLine("2 - Products");
         Console.WriteLine("3 - Sales");
+        Console.WriteLine("4 - Delete all Log");
         Console.WriteLine("0 - Exit");
         Console.Write("Select an option: ");
     }
