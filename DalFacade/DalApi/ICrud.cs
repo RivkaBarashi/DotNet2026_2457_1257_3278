@@ -10,6 +10,7 @@ namespace DalFacade.DalApi
         /// <param name="item">מקבלת פרטי המוצר</param>
         /// <returns>מחזירה את קוד המוצר שנוצר</returns>
         int Create(T item);
+
         /// <summary>
         ///     פונקציה שמחזירה מוצר לפי המזהה שקבלה
         /// </summary>
@@ -20,7 +21,8 @@ namespace DalFacade.DalApi
         /// פונקציה שמחזירה רשימה של כל המוצרים
         /// </summary>
         /// <returns>רשימת המוצרים</returns>
-       IEnumerable<T?> ReadAll();
+       //IEnumerable<T?> ReadAll();
+        List<T?> ReadAll(Func<T, bool>? filter = null);
         /// <summary>
         ///פונקציה שמעדכנת נתוני מוצר 
         /// </summary>

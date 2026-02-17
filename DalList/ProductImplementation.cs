@@ -7,39 +7,38 @@ internal class ProductImplementation : IProduct
 {
     public int Create(Product item)
     {
-        foreach (Product i in DataSource.Products)
-        {
-            if (item.Id == i.Id)
-                throw new Exception("There is a product with this code");
-        }
-        //חיב לקבל משתנה מבצע עם מזהה קיים
-        DataSource.Products.Add(item);
+        var q = DataSource.Products.Any(c => c.Id == item.Id);
+        if (q)
+            throw new DalIsExistException("Customer Exist ");
+
+        else
+            //חיב לקבל משתנה מבצע עם מזהה קיים
+            DataSource.Products.Add(item);  
+           
         return item.Id;
+        
     }
 
     public void Delete(int id)
     {
-        foreach (Product item in DataSource.Products)
+
+        var q = DataSource.Products.Single(c=>c.Id==id);
+        if(q is null)
+            throw new DalIsNotExistException("this sale not found");
+        else
         {
-            if (item.Id == id)
-            {
-                DataSource.Products.Remove(item);
-                return;
-            }
+            DataSource.Products.Remove(q);
         }
-        throw new Exception("this sale not found");
+
     }
 
     public Product? Read(int id)
     {
-        foreach (Product item in DataSource.Products)
-        {
-            if (item.Id == id)
-            {
-                return item;
-            }
-        }
-        return null;
+        var q = DataSource.Products.First(c => c.Id == id);
+        if (q is null)
+            throw new DalIsNotExistException("id prodact not exist");
+        else
+            return q;
     }
 
     public IEnumerable<Product?> ReadAll()
@@ -49,15 +48,14 @@ internal class ProductImplementation : IProduct
 
     public void Update(Product item)
     {
-        foreach (Product i in DataSource.Products)
+        var q= DataSource.Products.Single(c=>c.Id==item.Id);
+        if (q is null)
+            throw new DalIsNotExistException("No operation found with this ID");
+        else
         {
-            if (item.Id == i.Id)
-            {
-                DataSource.Products.Remove(i);
-                DataSource.Products.Add(item);
-                return;
-            }
+            DataSource.Products.Remove(q);
+            DataSource.Products.Add(item);
         }
-        throw new Exception("No operation found with this ID");
+        
     }
 }
