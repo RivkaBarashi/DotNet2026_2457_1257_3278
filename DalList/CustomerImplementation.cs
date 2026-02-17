@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using DalFacade.DalApi;
 
 namespace Dal;
 
@@ -27,22 +28,34 @@ internal class CustomerImplementation : ICustomer
 
 
     }
-
-    public Customer? Read(int id)
+    public Customer? Read(Func<Customer, bool> filter)
     {
-        var q = DataSource.Customers.First(c => c.Id == id);
+        var q = DataSource.Customers.First(c => filter(c));
         if (q is null)
             throw new DalIsNotExistException("Customer is not exist");
         else
             return q;
 
     }
-
-
-    public IEnumerable<Customer?> ReadAll()
+    public Customer Read(int id)
     {
-        return DataSource.Customers;
+
+        var q = DataSource.Customers.First(c => c.Id==id);
+        if (q is null)
+            throw new DalIsNotExistException("Customer is not exist");
+        else
+            return q;
     }
+
+    public List<Customer> ReadAll(Func<Customer, bool>? filter)
+    {
+        if (filter == null)
+            return new List<Customer?>(DataSource.Customers);
+        var q = DataSource.Customers.Where(c => filter(c));
+        return q.ToList();
+
+    }
+
 
     public void Update(Customer item)
     {
@@ -56,6 +69,8 @@ internal class CustomerImplementation : ICustomer
             DataSource.Customers.Add(item);
         }
 
-    
+
     }
+
+
 }
