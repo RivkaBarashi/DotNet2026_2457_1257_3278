@@ -17,11 +17,12 @@ namespace DalFacade.DalApi
         /// <param name="id">מזהה המוצר הרצוי</param>
         /// <returns>מחזירה את המוצר המבוקש</returns>
         T? Read(int id);
+        T? Read(Func<T, bool> filter);
         /// <summary>
         /// פונקציה שמחזירה רשימה של כל המוצרים
         /// </summary>
         /// <returns>רשימת המוצרים</returns>
-       //IEnumerable<T?> ReadAll();
+        //IEnumerable<T?> ReadAll();
         List<T?> ReadAll(Func<T, bool>? filter = null);
         /// <summary>
         ///פונקציה שמעדכנת נתוני מוצר 

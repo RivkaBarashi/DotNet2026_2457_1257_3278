@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using DalFacade.DalApi;
 
 namespace Dal;
 
@@ -40,10 +41,22 @@ internal class ProductImplementation : IProduct
         else
             return q;
     }
-
-    public IEnumerable<Product?> ReadAll()
+    public Product? Read(Func<Product, bool> filter)
     {
+        var q = DataSource.Products.First(c => filter(c));
+        if (q is null)
+            throw new DalIsNotExistException("id prodact not exist");
+        else
+            return q;
+    }
+
+     public List<Product?> ReadAll(Func<Product, bool>? filter)
+    {
+        if (filter == null)
+            return new List<Product?>(DataSource.Products);
+            var q = DataSource.Products.Where(c => filter(c));
         return DataSource.Products;
+
     }
 
     public void Update(Product item)
@@ -51,11 +64,14 @@ internal class ProductImplementation : IProduct
         var q= DataSource.Products.Single(c=>c.Id==item.Id);
         if (q is null)
             throw new DalIsNotExistException("No operation found with this ID");
-        else
-        {
+        else {
             DataSource.Products.Remove(q);
             DataSource.Products.Add(item);
         }
+
+       
         
     }
+
+    
 }
