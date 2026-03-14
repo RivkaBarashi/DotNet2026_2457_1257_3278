@@ -35,19 +35,17 @@ namespace DelTest
             s_dal.Sale.Create(sale2);
         }
 
-<<<<<<< HEAD
         public static void Initialize(IDal dal)
         {
             // שמירת הממשקים בשדות סטטיים
             s_dal = dal;
+        }
             
-=======
         public static void Initialize()
         {
             // שמירת הממשקים בשדות סטטיים
             s_dal = DalApi.Factory.Get;
 
->>>>>>> f8da3f0 (part7)
 
             // אתחול הרשימות
             CreateCustomers();

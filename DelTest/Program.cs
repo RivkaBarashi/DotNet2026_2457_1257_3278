@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 ﻿using Dal;
-=======
+
 ﻿
->>>>>>> f8da3f0 (part7)
 using DalApi;
 using DalFacade.DalApi;
 using DelTest;
@@ -15,11 +13,10 @@ namespace DalTest;
 
 class Program
 {
-<<<<<<< HEAD
-    static IDal s_dal = new DalList();
-=======
+    //static IDal s_dal = new DalList();
+
     static IDal s_dal = DalApi.Factory.Get;
->>>>>>> f8da3f0 (part7)
+
     static ICustomer dalCustomer = s_dal.Customer;
     static IProduct dalProduct = s_dal.Product;
     static ISale dalSale = s_dal.Sale;
@@ -29,11 +26,9 @@ class Program
 
      static void Main()
     {
-<<<<<<< HEAD
         Initialization.Initialize(s_dal);
-=======
-        Initialization.Initialize();
->>>>>>> f8da3f0 (part7)
+        //Initialization.Initialize();
+
 
         int mainChoice;
 
@@ -153,10 +148,9 @@ class Program
             dalCustomer.Create(c);
 
             Console.WriteLine("Customer added successfully");
-<<<<<<< HEAD
-=======
+
             
->>>>>>> f8da3f0 (part7)
+
         }
         catch (Exception ex)
         {

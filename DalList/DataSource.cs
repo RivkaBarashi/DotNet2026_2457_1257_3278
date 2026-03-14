@@ -23,6 +23,8 @@ internal static class DataSource
         {
             return saleId++;
         }
+        
+       
     }
 
 
