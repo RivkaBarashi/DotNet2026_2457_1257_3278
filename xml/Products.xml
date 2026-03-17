@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfProduct>
+<ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Product>
+    <Id>1004</Id>
+    <ProductName>הסמח</ProductName>
+    <Category>Lips</Category>
+    <Price>55</Price>
+    <Stock>5</Stock>
+  </Product>
 </ArrayOfProduct>

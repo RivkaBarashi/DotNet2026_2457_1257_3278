@@ -1,3 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfCustomer>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>1</Id>
+    <Phone>123456789</Phone>
+  </Customer>
+  <Customer>
+    <Id>678</Id>
+    <CustomerName>רכעינחמליענמ</CustomerName>
+    <Adress>חליעכהחץלןךולטיגכבהנ</Adress>
+    <Phone>34567890-876545</Phone>
+  </Customer>
+  <Customer>
+    <Id>5</Id>
+    <CustomerName>AAA</CustomerName>
+    <Adress>ABI</Adress>
+    <Phone>098789667</Phone>
+  </Customer>
 </ArrayOfCustomer>

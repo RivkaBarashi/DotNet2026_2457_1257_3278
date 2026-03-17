@@ -9,10 +9,21 @@ namespace DalXml
 {
     internal static class Config
     {
-        const string path = @"xml\data-config.xml";
+        //const string path = @"..\..\..\xml\data-config.xml";
+        private static readonly string path =
+        Path.Combine(AppContext.BaseDirectory, "xml", "data-config.xml");
         const string PRODUCTID = "productId";
         const string SALEID = "saleId";
-        static XElement dataConfigXml = XElement.Load(path);
+        //static XElement dataConfigXml = XElement.Load(path);
+        static XElement dataConfigXml = LoadConfig();
+
+        private static XElement LoadConfig()
+        {
+            Console.WriteLine($"Config path: {path}");
+            Console.WriteLine($"Exists: {File.Exists(path)}");
+
+            return XElement.Load(path);
+        }
         private static int ProductId = int.Parse(dataConfigXml.Element(PRODUCTID).Value);
         private static int myVar; //מיותר?!
 
@@ -41,5 +52,8 @@ namespace DalXml
                 return SaleId;
             }
         }
+
+
+
     }
 }
