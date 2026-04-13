@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlImplementation
 {
-    internal class Bl
+    internal class Bl:
     {
+
     }
 }

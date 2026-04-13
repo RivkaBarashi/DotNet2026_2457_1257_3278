@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace BO
-{
-    internal class Enums
-    {
-    }
-}
+namespace BO;
+public enum Categries { Face, Eye, Lips, Eyebrows, Skincare };
