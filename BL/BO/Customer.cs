@@ -10,17 +10,11 @@ namespace BO
     public class Customer
     {
        
-        public int Id { get; set; }
-        public string CustomerName { get; set; }
-        public string Adress { get; set; }
-        public string Phone { get; set; }
-        public Customer() { }
-        public Customer(int id, string customerName, string adress, string phone)
-        {
-            Id = id;
-            CustomerName = customerName;
-            Adress = adress;
-            Phone = phone;
-        }
+        public int Id { get; init; }
+        public string CustomerName { get; init; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
+      
+        public override string ToString() => this.ToStringProperty();
     }
 }

@@ -9,11 +9,11 @@ namespace BlApi
 {
     public interface ISale
     {
-        //int Create(Sale item);
-        //Sale? Read(int id);
-        //Sale? Read(Func<Sale, bool> filter);//stage2
-        //List<Sale?> ReadAll(Func<Sale, bool>? filter = null);//stage2
-        //void Update(Sale item);
-        //void Delete(int id);
+        int Create(BO.Sale item);
+        BO.Sale? Read(int id);
+        BO.Sale? Read(Func<BO.Sale, bool> filter);
+        List<Sale?> ReadAll(Func<BO.Sale, bool>? filter = null);
+        void Update(BO.Sale item);
+        void Delete(int id);
     }
 }

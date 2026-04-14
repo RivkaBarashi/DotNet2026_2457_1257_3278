@@ -14,13 +14,13 @@ namespace DO
     /// </summary>
     /// <param name="Id"></param>
     /// <param name="CustomerName"></param>
-    /// <param name="Adress"></param>
+    /// <param name="Address"></param>
     /// <param name="Phone"></param>
     public record Customer
         (
           int Id,
           string? CustomerName,
-          string? Adress,
+          string? Address,
           string? Phone
         )
     {

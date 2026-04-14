@@ -10,8 +10,8 @@ namespace DelTest
         private static IDal s_dal;
         private static void CreateCustomers()
         {
-            var customer1 = new Customer { Id = 1, CustomerName = "Rivka", Adress = "Bnebrak", Phone = "0501234567" };
-            var customer2 = new Customer { Id = 2, CustomerName = "Dana", Adress = "Jerusalem", Phone = "0529876543" };
+            var customer1 = new Customer { Id = 1, CustomerName = "Rivka", Address = "Bnebrak", Phone = "0501234567" };
+            var customer2 = new Customer { Id = 2, CustomerName = "Dana", Address = "Jerusalem", Phone = "0529876543" };
 
             s_dal.Customer.Create(customer1);
             s_dal.Customer.Create(customer2);

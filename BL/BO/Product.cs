@@ -7,19 +7,12 @@ namespace BO
     {
       
 
-        public int Id { get; set; }
-        public string ProductName { get; set; }
-        public Categries Category { get; set; }
-        public double Price { get; set; }
-        public int Stock { get; set; }
-        public Product() { }
-        public Product(int id, string productName, Categries category, double price,int stock)
-        {
-            Id = id;
-            ProductName = productName;
-            Category = category;
-            Price = price;
-            Stock = stock;
-        }
+        public int Id { get; init; }
+        public string ProductName { get; init; }
+        public Categries? Category { get; init; }
+        public double? Price { get; set; }
+        public int? Stock { get; set; }
+      
+        public override string ToString() => this.ToStringProperty();
     }
 }
