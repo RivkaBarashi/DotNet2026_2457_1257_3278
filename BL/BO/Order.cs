@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    internal class Order
+    public class Order
     {
+        bool favorite;
+        List<ProductInOrder> ProductInOrder;
+        double sum;
+       
     }
 }

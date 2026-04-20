@@ -8,5 +8,10 @@ namespace BO
 {
     internal class SaleInProduct
     {
+        int SaleId;
+        int CountSale;
+        double price;
+        bool ToEvreyone;
+
     }
 }
