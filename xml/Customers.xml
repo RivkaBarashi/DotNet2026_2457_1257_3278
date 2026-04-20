@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>1</Id>
+    <CustomerName>ילחר</CustomerName>
+    <Address />
+    <Phone>0583226902</Phone>
+  </Customer>
+  <Customer>
+    <Id>678</Id>
+    <CustomerName>רכעינחמליענמ</CustomerName>
+    <Phone>34567890-876545</Phone>
+  </Customer>
+  <Customer>
+    <Id>5</Id>
+    <CustomerName>AAA</CustomerName>
+    <Phone>098789667</Phone>
+  </Customer>
+  <Customer>
+    <Id>1258</Id>
+    <CustomerName>hjb </CustomerName>
+    <Address>dxc.gvh</Address>
+    <Phone>05050250</Phone>
+  </Customer>
+</ArrayOfCustomer>
