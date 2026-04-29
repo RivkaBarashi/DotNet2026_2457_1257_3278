@@ -1,0 +1,607 @@
+﻿using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using BlApi;
+using BO;
+
+namespace UI
+{
+    public enum Types { PRODUCT, SALE, CUSTOMER }
+
+    public partial class ManagerController : Form
+    {
+        // שומר איזה סוג ישות צריך להציג במסך הזה
+        private readonly Types _type;
+
+        // גישה לשכבת ה-BL כדי לקרוא נתונים
+        private readonly IBl _bl = Factory.Get();
+
+        // הטבלה הראשית שבה יוצגו כל הנתונים
+        private readonly DataGridView _dgv;
+
+        // כפתורי הפעולות העליונים
+        private readonly Button _showAllButton;
+        private readonly Button _showOneButton;
+        private readonly Button _updateButton;
+        private readonly Button _removeButton;
+        private readonly Button _addButton;
+        private readonly Panel _topPanel;
+
+        /// <summary>
+        /// בונה את המסך: שורת כפתורים למעלה וטבלה מתחת.
+        /// מקבל סוג ישות (לקוח/מוצר/מבצע) כדי לדעת מה להציג ומה לבצע.
+        /// </summary>
+        public ManagerController(Types type)
+        {
+            InitializeComponent();
+            _type = type;
+            Text = $"Manager - {type}";
+
+            _topPanel = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 40
+            };
+
+            _showAllButton = new Button
+            {
+                Text = "Show all",
+                Left = 0,
+                Top = 0,
+                Width = 90,
+                Height = 40
+            };
+
+            _showOneButton = new Button
+            {
+                Text = "Show one",
+                Left = 90,
+                Top = 0,
+                Width = 90,
+                Height = 40
+            };
+
+            _updateButton = new Button
+            {
+                Text = "Update",
+                Left = 180,
+                Top = 0,
+                Width = 90,
+                Height = 40
+            };
+
+            _removeButton = new Button
+            {
+                Text = "Remove",
+                Left = 270,
+                Top = 0,
+                Width = 90,
+                Height = 40
+            };
+
+            _addButton = new Button
+            {
+                Text = "Add",
+                Left = 360,
+                Top = 0,
+                Width = 90,
+                Height = 40
+            };
+
+            _showAllButton.Click += (_, _) => LoadData();
+            _showOneButton.Click += (_, _) => ShowSelectedEntity();
+            _updateButton.Click += (_, _) => UpdateSelectedEntity();
+            _removeButton.Click += (_, _) => DeleteSelectedEntity();
+            _addButton.Click += AddButton_Click;
+
+            _topPanel.Controls.Add(_showAllButton);
+            _topPanel.Controls.Add(_showOneButton);
+            _topPanel.Controls.Add(_updateButton);
+            _topPanel.Controls.Add(_removeButton);
+            _topPanel.Controls.Add(_addButton);
+
+            // יצירת טבלה שתמלא את כל הטופס
+            _dgv = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                MultiSelect = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            };
+
+            Controls.Add(_dgv);
+            Controls.Add(_topPanel);
+
+            Load += ManagerController_Load;
+        }
+
+        /// <summary>
+        /// אירוע טעינת הטופס – מציג ישר את הרשומות בטבלה.
+        /// </summary>
+        private void ManagerController_Load(object? sender, EventArgs e)
+        {
+            // בטעינת המסך מציגים את כל הנתונים
+            LoadData();
+        }
+
+        /// <summary>
+        /// טוען את כל הנתונים מה-BL לטבלה לפי סוג הישות.
+        /// כאן מתבצע ReadAll בלבד (הצגת הכל).
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                // לפי סוג הישות בוחרים מאיזה אובייקט ב-BL לקרוא
+                switch (_type)
+                {
+                    case Types.CUSTOMER:
+                        var customers = _bl.Customer
+                            .ReadAll()
+                            .Where(c => c != null)
+                            // בוחרים רק שדות שרוצים להציג בטבלה (טבלה יותר נקייה)
+                            .Select(c => new
+                            {
+                                c!.Id,
+                                c.CustomerName,
+                                c.Address,
+                                c.Phone
+                            })
+                            .ToList();
+                        _dgv.DataSource = customers;
+                        SetCustomerHeaders();
+                        break;
+
+                    case Types.PRODUCT:
+                        var products = _bl.Product
+                            .ReadAll()
+                            .Where(p => p != null)
+                            // בוחרים רק שדות שרוצים להציג בטבלה
+                            .Select(p => new
+                            {
+                                p!.Id,
+                                p.ProductName,
+                                p.Category,
+                                p.Price,
+                                p.Stock
+                            })
+                            .ToList();
+                        _dgv.DataSource = products;
+                        SetProductHeaders();
+                        break;
+
+                    case Types.SALE:
+                        var sales = _bl.Sale
+                            .ReadAll()
+                            .Where(s => s != null)
+                            // בוחרים רק שדות שרוצים להציג בטבלה
+                            .Select(s => new
+                            {
+                                s!.Id,
+                                s.ProductId,
+                                s.QuantityRequier,
+                                s.SalePrice,
+                                s.StartSale,
+                                s.EndSale
+                            })
+                            .ToList();
+                        _dgv.DataSource = sales;
+                        SetSaleHeaders();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        ///משנה את כותרות העמודות עבור לקוחות .
+        /// </summary>
+        private void SetCustomerHeaders()
+        {
+            _dgv.Columns["Id"].HeaderText = "Id";
+            _dgv.Columns["CustomerName"].HeaderText = "Name";
+            _dgv.Columns["Address"].HeaderText = "Address";
+            _dgv.Columns["Phone"].HeaderText = "PhoneNumber";
+        }
+
+        /// <summary>
+        /// משנה את כותרות העמודות עבור מוצרים.
+        /// </summary>
+        private void SetProductHeaders()
+        {
+            _dgv.Columns["Id"].HeaderText = "Id";
+            _dgv.Columns["ProductName"].HeaderText = "Name";
+            _dgv.Columns["Category"].HeaderText = "Category";
+            _dgv.Columns["Price"].HeaderText = "Price";
+            _dgv.Columns["Stock"].HeaderText = "Stock";
+        }
+
+        /// <summary>
+        /// משנה את כותרות העמודות עבור מבצעים.
+        /// </summary>
+        private void SetSaleHeaders()
+        {
+            _dgv.Columns["Id"].HeaderText = "Id";
+            _dgv.Columns["ProductId"].HeaderText = "ProductId";
+            _dgv.Columns["QuantityRequier"].HeaderText = "Quantity";
+            _dgv.Columns["SalePrice"].HeaderText = "SalePrice";
+            _dgv.Columns["StartSale"].HeaderText = "StartSale";
+            _dgv.Columns["EndSale"].HeaderText = "EndSale";
+        }
+
+        /// <summary>
+        /// מוציא את ה-Id של השורה שנבחרה בטבלה.
+        /// אם אין שורה נבחרת – זורק שגיאה כדי לעצור את הפעולה.
+        /// </summary>
+        private int GetSelectedId()
+        {
+            if (_dgv.CurrentRow == null || _dgv.CurrentRow.Cells["Id"].Value == null)
+            {
+                throw new Exception("יש לבחור שורה מהטבלה");
+            }
+
+            // פה מניחים שקיימת עמודה בשם "Id" ושאפשר להמיר אותה ל-int
+            return Convert.ToInt32(_dgv.CurrentRow.Cells["Id"].Value);
+        }
+
+        /// <summary>
+        /// "Show one" – מציג פרטי רשומה אחת לפי השורה שנבחרה.
+        /// </summary>
+        private void ShowSelectedEntity()
+        {
+            try
+            {
+                ShowEntity(GetSelectedId());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// "Update" – מעדכן את הרשומה שנבחרה (קולט ערכים חדשים ומפעיל BL.Update).
+        /// </summary>
+        private void UpdateSelectedEntity()
+        {
+            try
+            {
+                UpdateEntity(GetSelectedId());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// "Remove" – מוחק את הרשומה שנבחרה (לאחר אישור) ומרענן טבלה.
+        /// </summary>
+        private void DeleteSelectedEntity()
+        {
+            try
+            {
+                DeleteEntity(GetSelectedId());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// "Add" – הוספת רשומה חדשה.
+        /// יוצר אובייקט BO לפי סוג הישות, קולט שדות, וקורא ל-BL.Create.
+        /// </summary>
+        private void AddButton_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                switch (_type)
+                {
+                    case Types.CUSTOMER:
+                        // יצירת לקוח חדש מתוך נתוני קלט
+                        Customer customer = new()
+                        {
+                            Id = ReadInt("הכנסי מזהה לקוח"),
+                            CustomerName = ReadText("הכנסי שם לקוח"),
+                            Address = Prompt("הכנסי כתובת"),
+                            Phone = Prompt("הכנסי טלפון")
+                        };
+                        _bl.Customer.Create(customer);
+                        break;
+
+                    case Types.PRODUCT:
+                        // יצירת מוצר חדש מתוך נתוני קלט
+                        Product product = new()
+                        {
+                            Id = ReadInt("הכנסי מזהה מוצר"),
+                            ProductName = ReadText("הכנסי שם מוצר"),
+                            Category = ReadCategory(),
+                            Price = ReadDouble("הכנסי מחיר"),
+                            Stock = ReadInt("הכנסי כמות במלאי")
+                        };
+                        _bl.Product.Create(product);
+                        break;
+
+                    case Types.SALE:
+                        // יצירת מבצע חדש מתוך נתוני קלט
+                        Sale sale = new()
+                        {
+                            Id = ReadInt("הכנסי מזהה מבצע"),
+                            ProductId = ReadInt("הכנסי מזהה מוצר"),
+                            QuantityRequier = ReadInt("הכנסי כמות נדרשת"),
+                            SalePrice = ReadDouble("הכנסי מחיר מבצע"),
+                            StartSale = ReadDate("הכנסי תאריך התחלה"),
+                            EndSale = ReadDate("הכנסי תאריך סיום")
+                        };
+                        _bl.Sale.Create(sale);
+                        break;
+                }
+
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// מציג רשומה בודדת (Read) לפי Id.
+        /// כרגע מציג ב-MessageBox את ToString() של הישות.
+        /// </summary>
+        private void ShowEntity(int id)
+        {
+            object? entity = _type switch
+            {
+                Types.CUSTOMER => _bl.Customer.Read(id),
+                Types.PRODUCT => _bl.Product.Read(id),
+                Types.SALE => _bl.Sale.Read(id),
+                _ => null
+            };
+
+            MessageBox.Show(entity?.ToString() ?? "הרשומה לא נמצאה", "פרטי רשומה");
+        }
+
+        /// <summary>
+        /// מוחק רשומה (Delete) לפי Id אחרי אישור, ואז מרענן את הטבלה.
+        /// </summary>
+        private void DeleteEntity(int id)
+        {
+            if (
+                MessageBox.Show(
+                    $"למחוק רשומה {id}?",
+                    "אישור",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                ) != DialogResult.Yes
+            )
+            {
+                return;
+            }
+
+            try
+            {
+                switch (_type)
+                {
+                    case Types.CUSTOMER:
+                        _bl.Customer.Delete(id);
+                        break;
+                    case Types.PRODUCT:
+                        _bl.Product.Delete(id);
+                        break;
+                    case Types.SALE:
+                        _bl.Sale.Delete(id);
+                        break;
+                }
+
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// עדכון רשומה (Update) לפי Id:
+        /// קורא את הישות מה-BL, מקבל ערכים חדשים מהמשתמשת, ושולח ל-BL.Update.
+        /// </summary>
+        private void UpdateEntity(int id)
+        {
+            try
+            {
+                switch (_type)
+                {
+                    case Types.CUSTOMER:
+                        Customer? customer = _bl.Customer.Read(id);
+                        if (customer == null)
+                        {
+                            return;
+                        }
+
+                        Customer updatedCustomer = new()
+                        {
+                            Id = customer.Id,
+                            CustomerName = ReadText("שם לקוח", customer.CustomerName),
+                            Address = Prompt("כתובת", customer.Address ?? ""),
+                            Phone = Prompt("טלפון", customer.Phone ?? "")
+                        };
+                        _bl.Customer.Update(updatedCustomer);
+                        break;
+
+                    case Types.PRODUCT:
+                        Product? product = _bl.Product.Read(id);
+                        if (product == null)
+                        {
+                            return;
+                        }
+
+                        Product updatedProduct = new()
+                        {
+                            Id = product.Id,
+                            ProductName = ReadText("שם מוצר", product.ProductName),
+                            Category = ReadCategory(product.Category),
+                            Price = ReadDouble(
+                                "מחיר",
+                                product.Price?.ToString() ?? ""
+                            ),
+                            Stock = ReadInt("מלאי", product.Stock?.ToString() ?? "")
+                        };
+                        _bl.Product.Update(updatedProduct);
+                        break;
+
+                    case Types.SALE:
+                        Sale? sale = _bl.Sale.Read(id);
+                        if (sale == null)
+                        {
+                            return;
+                        }
+
+                        Sale updatedSale = new()
+                        {
+                            Id = sale.Id,
+                            ProductId = ReadInt(
+                                "מזהה מוצר",
+                                sale.ProductId.ToString()
+                            ),
+                            QuantityRequier = ReadInt(
+                                "כמות נדרשת",
+                                sale.QuantityRequier.ToString()
+                            ),
+                            SalePrice = ReadDouble(
+                                "מחיר מבצע",
+                                sale.SalePrice?.ToString() ?? ""
+                            ),
+                            StartSale = ReadDate(
+                                "תאריך התחלה",
+                                sale.StartSale?.ToString("dd/MM/yyyy") ?? ""
+                            ),
+                            EndSale = ReadDate(
+                                "תאריך סיום",
+                                sale.EndSale?.ToString("dd/MM/yyyy") ?? ""
+                            )
+                        };
+                        _bl.Sale.Update(updatedSale);
+                        break;
+                }
+
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "שגיאה", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// חלון קלט קטן (Dialog) שמחזיר טקסט.
+        /// אם המשתמשת לוחצת "ביטול" – נזרקת חריגה כדי לעצור את הפעולה.
+        /// </summary>
+        private string Prompt(string title, string defaultValue = "")
+        {
+            using Form form = new();
+            using Label label = new();
+            using TextBox textBox = new();
+            using Button okButton = new();
+            using Button cancelButton = new();
+
+            form.Text = title;
+            form.ClientSize = new Size(300, 120);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+
+            label.Text = title;
+            label.Left = 10;
+            label.Top = 10;
+            label.Width = 260;
+
+            textBox.Left = 10;
+            textBox.Top = 35;
+            textBox.Width = 260;
+            textBox.Text = defaultValue;
+
+            okButton.Text = "אישור";
+            okButton.Left = 110;
+            okButton.Top = 70;
+            okButton.DialogResult = DialogResult.OK;
+
+            cancelButton.Text = "ביטול";
+            cancelButton.Left = 195;
+            cancelButton.Top = 70;
+            cancelButton.DialogResult = DialogResult.Cancel;
+
+            form.Controls.Add(label);
+            form.Controls.Add(textBox);
+            form.Controls.Add(okButton);
+            form.Controls.Add(cancelButton);
+            form.AcceptButton = okButton;
+            form.CancelButton = cancelButton;
+
+            return form.ShowDialog() == DialogResult.OK
+                ? textBox.Text
+                : throw new Exception("הפעולה בוטלה");
+        }
+
+        /// <summary>
+        /// קלט טקסט חובה: לא מאפשר ריק/רווחים.
+        /// </summary>
+        private string ReadText(string title, string defaultValue = "")
+        {
+            string value = Prompt(title, defaultValue);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new Exception("חובה להזין ערך");
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// קלט מספר שלם (int) מתוך טקסט.
+        /// </summary>
+        private int ReadInt(string title, string defaultValue = "")
+        {
+            return int.Parse(ReadText(title, defaultValue));
+        }
+
+        /// <summary>
+        /// קלט מספר עשרוני (double) מתוך טקסט.
+        /// </summary>
+        private double ReadDouble(string title, string defaultValue = "")
+        {
+            return double.Parse(ReadText(title, defaultValue));
+        }
+
+        /// <summary>
+        /// קלט תאריך (DateTime) מתוך טקסט.
+        /// </summary>
+        private DateTime ReadDate(string title, string defaultValue = "")
+        {
+            return DateTime.Parse(ReadText(title, defaultValue));
+        }
+
+        /// <summary>
+        /// קלט קטגוריה מתוך enum:
+        /// המשתמשת מקלידה שם קטגוריה (מתוך הרשימה), ואנחנו עושים Enum.Parse.
+        /// </summary>
+        private Categries ReadCategory(Categries? current = null)
+        {
+            string options = string.Join(", ", Enum.GetNames(typeof(Categries)));
+            string value = ReadText($"קטגוריה ({options})", current?.ToString() ?? "");
+
+            return Enum.Parse<Categries>(value, true);
+        }
+    }
+}
