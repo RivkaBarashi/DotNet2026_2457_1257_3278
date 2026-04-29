@@ -9,7 +9,10 @@ namespace BlTest
         static void Main(string[] args)
         {
             MainMenu();
+<<<<<<< HEAD
 
+=======
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
         }
 
         static void MainMenu()
@@ -23,6 +26,10 @@ namespace BlTest
                     1 - Customer
                     2 - Product
                     3 - Sale
+<<<<<<< HEAD
+=======
+                    4 - Order
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
                     """);
 
                 int.TryParse(Console.ReadLine(), out choice);
@@ -38,6 +45,103 @@ namespace BlTest
                     case 3:
                         SaleMenu();
                         break;
+<<<<<<< HEAD
+=======
+                    case 4:
+                        OrderMenu();
+                        break;
+                }
+
+            } while (choice != 0);
+        }
+
+        static BO.Order currentOrder = new BO.Order
+        {
+            IsFavorite = false,
+            Products = new List<BO.ProductInOrder>(),
+            TotalPrice = 0
+        };
+
+        static void OrderMenu()
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("""
+                    Order Menu:
+                    0 - Back
+                    1 - Create new order
+                    2 - Add product to order
+                    3 - Calculate product price
+                    4 - Calculate order price
+                    5 - Do order (finalize)
+                    6 - Show order
+                    """);
+
+                int.TryParse(Console.ReadLine(), out choice);
+
+                try
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            currentOrder = new BO.Order
+                            {
+                                IsFavorite = false,
+                                Products = new List<BO.ProductInOrder>(),
+                                TotalPrice = 0
+                            };
+                            Console.WriteLine("New order created");
+                            break;
+
+                        case 2:
+                            Console.Write("Product Id: ");
+                            int productId = int.Parse(Console.ReadLine()!);
+
+                            Console.Write("Amount: ");
+                            int amount = int.Parse(Console.ReadLine()!);
+
+                            var sales = s_bl.Order.AddProductToOrder(currentOrder, productId, amount);
+
+                            Console.WriteLine("Product added. Sales:");
+                            foreach (var s in sales)
+                                Console.WriteLine(s);
+                            break;
+
+                        case 3:
+                            Console.Write("Product Id: ");
+                            int pid = int.Parse(Console.ReadLine()!);
+
+                            var product = currentOrder.Products?
+                                .FirstOrDefault(p => p.ProductId == pid);
+
+                            if (product != null)
+                            {
+                                s_bl.Order.CalcTotalPriceForProduct(product);
+                                Console.WriteLine("Product price calculated");
+                            }
+                            break;
+
+                        case 4:
+                            s_bl.Order.CalcTotalPrice(currentOrder);
+                            Console.WriteLine($"Order Total: {currentOrder.TotalPrice}");
+                            break;
+
+                        case 5:
+                            s_bl.Order.DoOrder(currentOrder);
+                            Console.WriteLine("Order completed");
+                            break;
+
+                        case 6:
+                            Console.WriteLine("Order details:");
+                            Console.WriteLine(currentOrder);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
                 }
 
             } while (choice != 0);

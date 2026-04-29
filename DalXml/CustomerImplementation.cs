@@ -10,7 +10,11 @@ namespace Dal;
 
 internal class CustomerImplementation : ICustomer
 {
+<<<<<<< HEAD
     private const string path = @"..\xml\customers.xml";
+=======
+    private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Customers.xml");
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
     private static readonly XmlSerializer serializer = new(typeof(List<Customer>));
 
     private List<Customer> LoadList()
@@ -130,4 +134,8 @@ internal class CustomerImplementation : ICustomer
 
         LogManager.WriteToLog("Finished deleting customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80

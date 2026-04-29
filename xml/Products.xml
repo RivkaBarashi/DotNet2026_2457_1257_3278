@@ -2,6 +2,7 @@
 <ArrayOfProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Product>
     <Id>1004</Id>
+<<<<<<< HEAD
     <ProductName>LIP</ProductName>
     <Category>Lips</Category>
     <Price>45</Price>
@@ -13,5 +14,11 @@
     <Category>Face</Category>
     <Price>132</Price>
     <Stock>34</Stock>
+=======
+    <ProductName>הסמח</ProductName>
+    <Category>Lips</Category>
+    <Price>55</Price>
+    <Stock>5</Stock>
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
   </Product>
 </ArrayOfProduct>

@@ -11,7 +11,11 @@ namespace Dal;
 
 internal class SaleImplementation : ISale
 {
+<<<<<<< HEAD
     private const string path = @"..\xml\salse.xml";
+=======
+    private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Sales.xml");
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
     private static readonly XmlSerializer serializer = new(typeof(List<Sale>));
 
     private List<Sale> LoadList()
@@ -134,4 +138,8 @@ internal class SaleImplementation : ISale
 
         LogManager.WriteToLog("Finished deleting sale", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80

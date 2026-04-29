@@ -8,7 +8,11 @@
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	  <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+<<<<<<< HEAD
 
+=======
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
   </PropertyGroup>
 
 </Project>

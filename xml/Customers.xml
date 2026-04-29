@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
+<<<<<<< HEAD
+=======
+    <Id>1</Id>
+    <CustomerName>ילחר</CustomerName>
+    <Address />
+    <Phone>0583226902</Phone>
+  </Customer>
+  <Customer>
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
     <Id>678</Id>
     <CustomerName>רכעינחמליענמ</CustomerName>
     <Phone>34567890-876545</Phone>
@@ -10,6 +19,7 @@
     <CustomerName>AAA</CustomerName>
     <Phone>098789667</Phone>
   </Customer>
+<<<<<<< HEAD
   <Customer>
     <Id>123</Id>
     <CustomerName>רבקה בראשי</CustomerName>
@@ -22,4 +32,6 @@
     <Address>יעעגכעחי</Address>
     <Phone>4576798954</Phone>
   </Customer>
+=======
+>>>>>>> ba9648521294c3265027d0de12859a2717a89e80
 </ArrayOfCustomer>
