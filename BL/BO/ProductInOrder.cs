@@ -17,4 +17,6 @@ public class ProductInOrder
     public List<SaleInProduct>? Sales { get; set; }
 
     public double TotalPrice { get; set; }
+
+    public override string ToString() => this.ToStringProperty();
 }

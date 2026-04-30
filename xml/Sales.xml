@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfSale>
-	<Sale>
-		<Id>1</Id>
-		<ProductId>1</ProductId>
-		<Amount>2</Amount>
-	</Sale>
-</ArrayOfSale>

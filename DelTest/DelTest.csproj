@@ -5,15 +5,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-<<<<<<< HEAD
-    <BaseOutputPath>M:\C#\DotNet2026_3278_4553\bin</BaseOutputPath>
-=======
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
-	  <OutputPath>$(SolutionDir)\bin\</OutputPath>
-	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	  <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-	  <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 
+    <BaseOutputPath>M:\C#\DotNet2026_3278_4553\bin</BaseOutputPath>
+
+    <OutputPath>$(SolutionDir)\bin\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,8 +21,6 @@
     <ProjectReference Include="..\Tools\Tools.csproj" />
   </ItemGroup>
 
-<<<<<<< HEAD
-=======
   <ItemGroup>
     <Content Include="..\xml\**\*.*">
       <Link>xml\%(RecursiveDir)%(Filename)%(Extension)</Link>
@@ -32,5 +28,4 @@
     </Content>
   </ItemGroup>
 
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
 </Project>

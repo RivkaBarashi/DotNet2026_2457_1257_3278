@@ -24,8 +24,5 @@ public class Order
     public List<ProductInOrder>? Products { get; set; }
 
     public double TotalPrice { get; set; }
-    public override string ToString()
-    {
-        return $"Order: TotalPrice={TotalPrice}, ProductsCount={Products?.Count ?? 0}";
-    }
+    public override string ToString() => this.ToStringProperty();
 }

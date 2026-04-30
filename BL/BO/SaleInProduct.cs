@@ -9,4 +9,6 @@ public class SaleInProduct
     public double Price { get; set; }
 
     public bool ForEveryone { get; set; }
+
+    public override string ToString() => this.ToStringProperty();
 }
