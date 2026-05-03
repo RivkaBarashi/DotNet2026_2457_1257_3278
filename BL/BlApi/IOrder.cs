@@ -15,6 +15,7 @@ namespace BlApi;
 
 public interface IOrder
 {
+    // כל פעולות הCRUD של ההזמנה
     List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, int amount);
 
     void CalcTotalPriceForProduct(BO.ProductInOrder product);

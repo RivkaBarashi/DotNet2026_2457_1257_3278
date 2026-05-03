@@ -7,6 +7,7 @@ namespace BO;
 
 internal static class Tools
 {
+    // פונקציה שמחזירה מחרוזת עם כל הפרופרטים של האובייקט והערכים שלהם
     public static string ToStringProperty<T>(this T t)
     {
         string str = "";

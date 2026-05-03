@@ -11,6 +11,7 @@ namespace Dal;
 
 internal class ProductImplementation : IProduct
 {
+    // כתיבה לקבצי XML
     private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Products.xml");
 
     private static readonly XmlSerializer serializer = new(typeof(List<Product>));

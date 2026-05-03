@@ -11,6 +11,7 @@ namespace Dal;
 
 internal class SaleImplementation : ISale
 {
+    // כתיבה לקבצי XML
     private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Sales.xml");
     private static readonly XmlSerializer serializer = new(typeof(List<Sale>));
 

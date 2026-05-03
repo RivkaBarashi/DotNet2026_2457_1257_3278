@@ -8,6 +8,7 @@ namespace BlApi
 {
     public interface ICustomer
     {
+        // כל פעולות הCRUD של הלקוח
         int Create(BO.Customer item);
         BO.Customer? Read(int id);
         BO.Customer? Read(Func<BO.Customer, bool> filter);

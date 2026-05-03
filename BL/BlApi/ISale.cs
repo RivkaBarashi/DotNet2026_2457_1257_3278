@@ -9,6 +9,7 @@ namespace BlApi
 {
     public interface ISale
     {
+        // כל פעולות הCRUD של המכירה
         int Create(BO.Sale item);
         BO.Sale? Read(int id);
         BO.Sale? Read(Func<BO.Sale, bool> filter);

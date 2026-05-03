@@ -10,6 +10,7 @@ namespace Dal;
 
 internal class CustomerImplementation : ICustomer
 {
+    // כתיבה לקבצי XML
     private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Customers.xml");
     private static readonly XmlSerializer serializer = new(typeof(List<Customer>));
 
