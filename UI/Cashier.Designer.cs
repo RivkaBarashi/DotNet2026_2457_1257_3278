@@ -45,18 +45,19 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(1392, 75);
+            label1.Location = new Point(1160, 62);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(93, 30);
+            label1.Size = new Size(81, 25);
             label1.TabIndex = 0;
             label1.Text = "קוד מוצר";
-            label1.Click += label1_Click;
             // 
             // btnAddByCode
             // 
-            btnAddByCode.Location = new Point(1316, 128);
+            btnAddByCode.Location = new Point(1097, 107);
+            btnAddByCode.Margin = new Padding(2);
             btnAddByCode.Name = "btnAddByCode";
-            btnAddByCode.Size = new Size(131, 40);
+            btnAddByCode.Size = new Size(109, 33);
             btnAddByCode.TabIndex = 4;
             btnAddByCode.Text = "הוסף מוצר";
             btnAddByCode.UseVisualStyleBackColor = true;
@@ -65,11 +66,11 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(1209, 75);
+            comboBox1.Location = new Point(1008, 62);
+            comboBox1.Margin = new Padding(2);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(177, 38);
+            comboBox1.Size = new Size(148, 33);
             comboBox1.TabIndex = 5;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // orderBindingSource
             // 
@@ -82,27 +83,30 @@
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(1392, 244);
+            lblTotal.Location = new Point(1160, 203);
+            lblTotal.Margin = new Padding(2, 0, 2, 0);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(104, 30);
+            lblTotal.Size = new Size(89, 25);
             lblTotal.TabIndex = 9;
             lblTotal.Text = "סכום סופי";
-            lblTotal.Click += label3_Click;
             // 
             // dgvCart
             // 
             dgvCart.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCart.Location = new Point(42, 71);
+            dgvCart.Location = new Point(35, 59);
+            dgvCart.Margin = new Padding(2);
             dgvCart.Name = "dgvCart";
             dgvCart.RowHeadersWidth = 72;
-            dgvCart.Size = new Size(985, 262);
+            dgvCart.Size = new Size(821, 218);
             dgvCart.TabIndex = 10;
+            //dgvCart.CellContentClick += dgvCart_CellContentClick;
             // 
             // button1
             // 
-            button1.Location = new Point(1275, 337);
+            button1.Location = new Point(1062, 281);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
-            button1.Size = new Size(131, 40);
+            button1.Size = new Size(109, 33);
             button1.TabIndex = 11;
             button1.Text = "סיום הזמנה";
             button1.UseVisualStyleBackColor = true;
@@ -110,18 +114,18 @@
             // 
             // Cashier
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1533, 450);
+            ClientSize = new Size(1278, 375);
             Controls.Add(button1);
             Controls.Add(dgvCart);
             Controls.Add(lblTotal);
             Controls.Add(comboBox1);
             Controls.Add(btnAddByCode);
             Controls.Add(label1);
+            Margin = new Padding(2);
             Name = "Cashier";
             Text = "dgvCart";
-            Load += Cashier_Load;
             ((System.ComponentModel.ISupportInitialize)orderBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)productBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCart).EndInit();

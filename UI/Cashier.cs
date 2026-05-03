@@ -44,45 +44,7 @@ namespace UI
             comboBox1.ValueMember = "Id";
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Cashier_Load(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+       
 
         private void btnAddByCode_Click(object sender, EventArgs e)
         {
@@ -133,7 +95,7 @@ namespace UI
             currentOrder = new BO.Order
             {
                 Products = new List<BO.ProductInOrder>(),
-                IsFavorite =true
+                IsFavorite = true
             };
             // רענון הטבלה והסכום הכולל לאחר ביצוע ההזמנה
             dgvCart.DataSource = null;
@@ -141,5 +103,9 @@ namespace UI
             lblTotal.Text = "סה\"כ: 0 ₪";
 
         }
+
+       
+
+       
     }
 }

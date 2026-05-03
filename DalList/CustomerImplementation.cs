@@ -86,7 +86,7 @@ internal class CustomerImplementation : ICustomer
         }
     }
 
-    public List<Customer> ReadAll(Func<Customer, bool>? filter)
+    public List<Customer?> ReadAll(Func<Customer, bool>? filter)
     {
         if (filter == null)
         {

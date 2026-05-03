@@ -106,7 +106,7 @@ namespace BlImplementation
                     if (times > 0)
                     {
                         // חישוב המחיר הכולל של המוצר בהזמנה בהתחשב במבצעים
-                        total += times * sale.Price;
+                        total += times * sale.QuantityForSale * sale.Price;
                         count -= times * sale.QuantityForSale;
                         // הוספת המבצע לרשימת המבצעים שהוחלו על המוצר בהזמנה
                         usedSales.Add(sale);

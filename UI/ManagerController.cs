@@ -52,7 +52,7 @@ namespace UI
 
             _showAllButton = new Button
             {
-                Text = "Show all",
+                Text = "הצג הכל",
    
                 Width = 110,
                 Height = 40
@@ -60,7 +60,7 @@ namespace UI
 
             _showOneButton = new Button
             {
-                Text = "Show one",
+                Text = "הצג אחד",
               
                 Width = 110,
                 Height = 40
@@ -68,7 +68,7 @@ namespace UI
 
             _updateButton = new Button
             {
-                Text = "Update",
+                Text = "עדכן",
                 
                 Width = 110,
                 Height = 40
@@ -76,7 +76,7 @@ namespace UI
 
             _removeButton = new Button
             {
-                Text = "Remove",
+                Text = "מחק",
              
                 Width = 110,
                 Height = 40
@@ -84,7 +84,7 @@ namespace UI
 
             _addButton = new Button
             {
-                Text = "Add",
+                Text = "הוסף",
                 
                 Width = 110,
                 Height = 40
@@ -97,7 +97,7 @@ namespace UI
                 DropDownStyle = ComboBoxStyle.DropDownList
                
             };
-            _filterComboBox.Items.Add("All");
+            _filterComboBox.Items.Add("הכל");
             // טוען את הרשימה
             if (_type == Types.PRODUCT)
             {
@@ -110,7 +110,7 @@ namespace UI
             _filterComboBox.SelectedIndex = 0;
             _filterButton = new Button
             {
-                Text = "Filter",
+                Text = "סנן",
               
                 Width = 90,
                 Height = 40
@@ -370,31 +370,37 @@ namespace UI
             using Button cancelButton = new();
 
             form.Text = title;
-            form.ClientSize = new Size(320, 130);
+            form.ClientSize = new Size(620, 220);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterParent;
             form.MinimizeBox = false;
             form.MaximizeBox = false;
 
             label.Text = title;
-            label.Left = 10;
-            label.Top = 10;
-            label.Width = 280;
+            label.Left = 20;
+            label.Top = 15;
+            label.Width = 560;
+            label.Height = 30;
+            label.Font = new Font("Segoe UI", 12);
 
-            picker.Left = 10;
-            picker.Top = 40;
-            picker.Width = 280;
+            picker.Left = 20;
+            picker.Top = 55;
+            picker.Width = 560;
             picker.Format = DateTimePickerFormat.Short;
             picker.Value = defaultValue ?? DateTime.Today;
 
             okButton.Text = "אישור";
-            okButton.Left = 120;
-            okButton.Top = 80;
+            okButton.Left = 360;
+            okButton.Top = 145;
+            okButton.Width = 100;
+            okButton.Height = 35;
             okButton.DialogResult = DialogResult.OK;
 
             cancelButton.Text = "ביטול";
-            cancelButton.Left = 205;
-            cancelButton.Top = 80;
+            cancelButton.Left = 480;
+            cancelButton.Top = 145;
+            cancelButton.Width = 100;
+            cancelButton.Height = 35;
             cancelButton.DialogResult = DialogResult.Cancel;
 
             form.Controls.Add(label);
@@ -625,7 +631,7 @@ namespace UI
             using Button cancelButton = new();
 
             form.Text = title;
-            form.ClientSize = new Size(500, 240);
+            form.ClientSize = new Size(620, 260);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterParent;
             form.MinimizeBox = false;
@@ -644,24 +650,24 @@ namespace UI
             // TextBox
             textBox.Left = 30;
             textBox.Top = 90;
-            textBox.Width = 430;
+            textBox.Width = 560;
             textBox.Height = 35;
             textBox.Font = new Font("Segoe UI", 12);
             textBox.Text = defaultValue;
 
             // OK button
             okButton.Text = "אישור";
-            okButton.Left = 260;
-            okButton.Top = 160;
-            okButton.Width = 90;
+            okButton.Left = 360;
+            okButton.Top = 165;
+            okButton.Width = 100;
             okButton.Height = 35;
             okButton.DialogResult = DialogResult.OK;
 
             // Cancel button
             cancelButton.Text = "ביטול";
-            cancelButton.Left = 365;
-            cancelButton.Top = 160;
-            cancelButton.Width = 90;
+            cancelButton.Left = 475;
+            cancelButton.Top = 165;
+            cancelButton.Width = 100;
             cancelButton.Height = 35;
             cancelButton.DialogResult = DialogResult.Cancel;
 
@@ -706,6 +712,14 @@ namespace UI
         private double ReadDouble(string title, string defaultValue = "")
         {
             return double.Parse(ReadText(title, defaultValue));
+        }
+
+        /// <summary>
+        /// קלט ערך בוליאני (bool) מתוך טקסט.
+        /// </summary>
+        private bool ReadBool(string title, string defaultValue = "")
+        {
+            return bool.Parse(ReadText(title, defaultValue));
         }
 
         /// <summary>

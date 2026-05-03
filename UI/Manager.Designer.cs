@@ -39,7 +39,7 @@
             Product.Name = "Product";
             Product.Size = new Size(182, 72);
             Product.TabIndex = 1;
-            Product.Text = "Product";
+            Product.Text = "מוצרים";
             Product.UseVisualStyleBackColor = true;
             Product.Click += button2_Click;
             // 
@@ -49,7 +49,7 @@
             Sales.Name = "Sales";
             Sales.Size = new Size(182, 72);
             Sales.TabIndex = 2;
-            Sales.Text = "Sales";
+            Sales.Text = "הנחות";
             Sales.UseVisualStyleBackColor = true;
             Sales.Click += Sales_Click;
             // 
@@ -59,7 +59,7 @@
             button1.Name = "button1";
             button1.Size = new Size(182, 72);
             button1.TabIndex = 3;
-            button1.Text = "Customer";
+            button1.Text = "לקוחות";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -72,7 +72,7 @@
             Controls.Add(Sales);
             Controls.Add(Product);
             Name = "Manager";
-            Text = "Manager";
+            Text = "מנהל";
             Load += Manager_Load;
             ResumeLayout(false);
         }

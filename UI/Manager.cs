@@ -15,7 +15,7 @@ namespace UI
         public Manager()
         {
             InitializeComponent();
-            Text = "Manager";
+            Text = "מנהל";
         }
 
         private void Manager_Load(object sender, EventArgs e)

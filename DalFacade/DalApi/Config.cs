@@ -18,8 +18,9 @@ static class DalConfig
         // קריאת הקובץ כ-XML
         XElement dalConfig = XElement.Load(s_configPath);
         // קריאת שם ה-DAL מהאלמנט המתאים
-        s_dalName =  dalConfig.Element("dal")?.Value ?? throw new DalConfigException("<dal> element is missing");
-     //  טען את רשימת החבילות מה‑XML למילון, או זרוק שגיאה אם החלק הזה חסר.        var packages = dalConfig.Element("dal-packages")?.Elements() ??
+        s_dalName = dalConfig.Element("dal")?.Value ?? throw new DalConfigException("<dal> element is missing");
+        // טען את רשימת החבילות מה‑XML למילון, או זרוק שגיאה אם החלק הזה חסר.
+        var packages = dalConfig.Element("dal-packages")?.Elements() ??
             throw new DalConfigException("<dal-packages> element is missing");
         s_dalPackages = packages.ToDictionary(p => "" + p.Name, p => p.Value);
     }
