@@ -21,13 +21,27 @@ namespace UI
         {
             this.Hide();
             // פתיחת החלון של התפריט של המנהל
-            var manager=new Manager();
+            var manager = new Manager();
             // כאשר סוגרים את החלון של המנהל, להראות שוב את החלון הראשי
-            manager.FormClosed+= (s, args) => this.Show();
+            manager.FormClosed += (s, args) => this.Show();
             manager.Show();
 
         }
-       
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            // פתיחת החלון של התפריט של הקופאי
+            var cashier = new Cashier();
+            // כאשר סוגרים את החלון של הקופאי, להראות שוב את החלון הראשי
+            cashier.FormClosed += (s, args) => this.Show();
+            cashier.Show();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

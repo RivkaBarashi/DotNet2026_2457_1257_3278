@@ -27,6 +27,8 @@ namespace UI
         private readonly Button _removeButton;
         private readonly Button _addButton;
         private readonly Panel _topPanel;
+        private readonly ComboBox _filterComboBox;
+        private readonly Button _filterButton;
 
         /// <summary>
         /// בונה את המסך: שורת כפתורים למעלה וטבלה מתחת.
@@ -38,56 +40,85 @@ namespace UI
             _type = type;
             Text = $"Manager - {type}";
 
-            _topPanel = new Panel
+            _topPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Top,
-                Height = 40
+                Height = 60,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                AutoSize = false,
+                Padding = new Padding(10, 10, 10, 10)
             };
 
             _showAllButton = new Button
             {
                 Text = "Show all",
-                Left = 0,
-                Top = 0,
-                Width = 90,
+   
+                Width = 110,
                 Height = 40
             };
 
             _showOneButton = new Button
             {
                 Text = "Show one",
-                Left = 90,
-                Top = 0,
-                Width = 90,
+              
+                Width = 110,
                 Height = 40
             };
 
             _updateButton = new Button
             {
                 Text = "Update",
-                Left = 180,
-                Top = 0,
-                Width = 90,
+                
+                Width = 110,
                 Height = 40
             };
 
             _removeButton = new Button
             {
                 Text = "Remove",
-                Left = 270,
-                Top = 0,
-                Width = 90,
+             
+                Width = 110,
                 Height = 40
             };
 
             _addButton = new Button
             {
                 Text = "Add",
-                Left = 360,
-                Top = 0,
+                
+                Width = 110,
+                Height = 40
+            };
+            // כפתור של בחירת הקטגוריה מתול הרשימה
+            _filterComboBox = new ComboBox
+            {
+                Width = 160,
+                Height = 40,
+                DropDownStyle = ComboBoxStyle.DropDownList
+               
+            };
+            _filterComboBox.Items.Add("All");
+            // טוען את הרשימה
+            if (_type == Types.PRODUCT)
+            {
+                foreach (var category in Enum.GetNames(typeof(Categries)))
+                {
+                    _filterComboBox.Items.Add(category);
+                }
+            }
+            // כפתור אישו רהיחפוש של הקטגוריה
+            _filterComboBox.SelectedIndex = 0;
+            _filterButton = new Button
+            {
+                Text = "Filter",
+              
                 Width = 90,
                 Height = 40
             };
+
+            _filterButton.Click += (_, _) => LoadData(_filterComboBox.Text);
+            _topPanel.Controls.Add(_filterComboBox);
+            _topPanel.Controls.Add(_filterButton);
 
             _showAllButton.Click += (_, _) => LoadData();
             _showOneButton.Click += (_, _) => ShowSelectedEntity();
@@ -132,7 +163,7 @@ namespace UI
         /// טוען את כל הנתונים מה-BL לטבלה לפי סוג הישות.
         /// כאן מתבצע ReadAll בלבד (הצגת הכל).
         /// </summary>
-        private void LoadData()
+        private void LoadData(string? filter = null)
         {
             try
             {
@@ -141,9 +172,16 @@ namespace UI
                 {
                     case Types.CUSTOMER:
                         var customers = _bl.Customer
-                            .ReadAll()
-                            .Where(c => c != null)
-                            // בוחרים רק שדות שרוצים להציג בטבלה (טבלה יותר נקייה)
+     .ReadAll()
+     .Where(c => c != null);
+
+                        if (!string.IsNullOrWhiteSpace(filter))
+                        {
+                            customers = customers.Where(c =>
+                                c!.CustomerName.Contains(filter, StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        _dgv.DataSource = customers
                             .Select(c => new
                             {
                                 c!.Id,
@@ -152,15 +190,23 @@ namespace UI
                                 c.Phone
                             })
                             .ToList();
-                        _dgv.DataSource = customers;
+
                         SetCustomerHeaders();
                         break;
 
                     case Types.PRODUCT:
                         var products = _bl.Product
-                            .ReadAll()
-                            .Where(p => p != null)
-                            // בוחרים רק שדות שרוצים להציג בטבלה
+    .ReadAll()
+    .Where(p => p != null);
+
+                        if (!string.IsNullOrWhiteSpace(filter))
+                        {
+                            products = products.Where(p =>
+                                p!.Category != null &&
+                                p.Category.ToString()!.Contains(filter, StringComparison.OrdinalIgnoreCase));
+                        }
+
+                        _dgv.DataSource = products
                             .Select(p => new
                             {
                                 p!.Id,
@@ -170,15 +216,21 @@ namespace UI
                                 p.Stock
                             })
                             .ToList();
-                        _dgv.DataSource = products;
+
                         SetProductHeaders();
                         break;
 
                     case Types.SALE:
                         var sales = _bl.Sale
-                            .ReadAll()
-                            .Where(s => s != null)
-                            // בוחרים רק שדות שרוצים להציג בטבלה
+     .ReadAll()
+     .Where(s => s != null);
+
+                        if (!string.IsNullOrWhiteSpace(filter) && int.TryParse(filter, out int productId))
+                        {
+                            sales = sales.Where(s => s!.ProductId == productId);
+                        }
+
+                        _dgv.DataSource = sales
                             .Select(s => new
                             {
                                 s!.Id,
@@ -189,16 +241,25 @@ namespace UI
                                 s.EndSale
                             })
                             .ToList();
-                        _dgv.DataSource = sales;
+
                         SetSaleHeaders();
                         break;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"Error loading data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
+
 
         /// <summary>
         ///משנה את כותרות העמודות עבור לקוחות .
@@ -300,6 +361,54 @@ namespace UI
         /// "Add" – הוספת רשומה חדשה.
         /// יוצר אובייקט BO לפי סוג הישות, קולט שדות, וקורא ל-BL.Create.
         /// </summary>
+        private DateTime ReadDatePicker(string title, DateTime? defaultValue = null)
+        {
+            using Form form = new();
+            using Label label = new();
+            using DateTimePicker picker = new();
+            using Button okButton = new();
+            using Button cancelButton = new();
+
+            form.Text = title;
+            form.ClientSize = new Size(320, 130);
+            form.FormBorderStyle = FormBorderStyle.FixedDialog;
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
+
+            label.Text = title;
+            label.Left = 10;
+            label.Top = 10;
+            label.Width = 280;
+
+            picker.Left = 10;
+            picker.Top = 40;
+            picker.Width = 280;
+            picker.Format = DateTimePickerFormat.Short;
+            picker.Value = defaultValue ?? DateTime.Today;
+
+            okButton.Text = "אישור";
+            okButton.Left = 120;
+            okButton.Top = 80;
+            okButton.DialogResult = DialogResult.OK;
+
+            cancelButton.Text = "ביטול";
+            cancelButton.Left = 205;
+            cancelButton.Top = 80;
+            cancelButton.DialogResult = DialogResult.Cancel;
+
+            form.Controls.Add(label);
+            form.Controls.Add(picker);
+            form.Controls.Add(okButton);
+            form.Controls.Add(cancelButton);
+
+            form.AcceptButton = okButton;
+            form.CancelButton = cancelButton;
+
+            return form.ShowDialog() == DialogResult.OK
+                ? picker.Value.Date
+                : throw new Exception("הפעולה בוטלה");
+        }
         private void AddButton_Click(object? sender, EventArgs e)
         {
             try
@@ -339,8 +448,9 @@ namespace UI
                             ProductId = ReadInt("הכנסי מזהה מוצר"),
                             QuantityRequier = ReadInt("הכנסי כמות נדרשת"),
                             SalePrice = ReadDouble("הכנסי מחיר מבצע"),
-                            StartSale = ReadDate("הכנסי תאריך התחלה"),
-                            EndSale = ReadDate("הכנסי תאריך סיום")
+                            StartSale = ReadDatePicker("הכנסי תאריך התחלה"),
+                            EndSale = ReadDatePicker("הכנסי תאריך סיום"),
+                            
                         };
                         _bl.Sale.Create(sale);
                         break;
@@ -515,36 +625,51 @@ namespace UI
             using Button cancelButton = new();
 
             form.Text = title;
-            form.ClientSize = new Size(300, 120);
+            form.ClientSize = new Size(500, 240);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterParent;
             form.MinimizeBox = false;
             form.MaximizeBox = false;
+            form.BackColor = Color.White;
+            form.Font = new Font("Segoe UI", 10);
 
+            // Label
             label.Text = title;
-            label.Left = 10;
-            label.Top = 10;
-            label.Width = 260;
+            label.Left = 30;
+            label.Top = 30;
+            label.Width = 430;
+            label.Height = 40;
+            label.Font = new Font("Segoe UI", 12);
 
-            textBox.Left = 10;
-            textBox.Top = 35;
-            textBox.Width = 260;
+            // TextBox
+            textBox.Left = 30;
+            textBox.Top = 90;
+            textBox.Width = 430;
+            textBox.Height = 35;
+            textBox.Font = new Font("Segoe UI", 12);
             textBox.Text = defaultValue;
 
+            // OK button
             okButton.Text = "אישור";
-            okButton.Left = 110;
-            okButton.Top = 70;
+            okButton.Left = 260;
+            okButton.Top = 160;
+            okButton.Width = 90;
+            okButton.Height = 35;
             okButton.DialogResult = DialogResult.OK;
 
+            // Cancel button
             cancelButton.Text = "ביטול";
-            cancelButton.Left = 195;
-            cancelButton.Top = 70;
+            cancelButton.Left = 365;
+            cancelButton.Top = 160;
+            cancelButton.Width = 90;
+            cancelButton.Height = 35;
             cancelButton.DialogResult = DialogResult.Cancel;
 
             form.Controls.Add(label);
             form.Controls.Add(textBox);
             form.Controls.Add(okButton);
             form.Controls.Add(cancelButton);
+
             form.AcceptButton = okButton;
             form.CancelButton = cancelButton;
 
@@ -552,7 +677,6 @@ namespace UI
                 ? textBox.Text
                 : throw new Exception("הפעולה בוטלה");
         }
-
         /// <summary>
         /// קלט טקסט חובה: לא מאפשר ריק/רווחים.
         /// </summary>

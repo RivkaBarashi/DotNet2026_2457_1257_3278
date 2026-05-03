@@ -2,7 +2,7 @@
 using DalFacade.DalApi;
 using DO;
 using System.Reflection;
-using System.Xml.Linq;
+using System.Xml.Serialization;
 
 using Tools;
 
@@ -10,52 +10,36 @@ namespace Dal;
 
 internal class CustomerImplementation : ICustomer
 {
+    // כתיבה לקבצי XML
     private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Customers.xml");
+    private static readonly XmlSerializer serializer = new(typeof(List<Customer>));
 
-    private XElement LoadXml()
+    private List<Customer> LoadList()
     {
         if (!File.Exists(path))
-            return new XElement("Customers");
-        return XElement.Load(path);
+            return new List<Customer>();
+
+        using StreamReader sr = new StreamReader(path);
+        return serializer.Deserialize(sr) as List<Customer> ?? new List<Customer>();
     }
 
-    private void SaveXml(XElement xml)
+    private void SaveList(List<Customer> list)
     {
-        xml.Save(path);
-    }
-
-    private Customer XmlToCustomer(XElement x)
-    {
-        return new Customer
-        {
-            Id = int.Parse(x.Element("Id")!.Value),
-            CustomerName = x.Element("CustomerName")!.Value,
-            Address = x.Element("Address")?.Value,
-            Phone = x.Element("Phone")?.Value
-        };
-    }
-
-    private XElement CustomerToXml(Customer c)
-    {
-        return new XElement("Customer",
-            new XElement("Id", c.Id),
-            new XElement("CustomerName", c.CustomerName),
-            new XElement("Address", c.Address),
-            new XElement("Phone", c.Phone)
-        );
+        using StreamWriter sw = new StreamWriter(path);
+        serializer.Serialize(sw, list);
     }
 
     public int Create(Customer item)
     {
         LogManager.WriteToLog("Start creating customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        var xml = LoadXml();
+        var customers = LoadList();
 
-        if (xml.Elements("Customer").Any(c => int.Parse(c.Element("Id")!.Value) == item.Id))
+        if (customers.Any(c => c.Id == item.Id))
             throw new DalIsExistException("Customer already exists");
 
-        xml.Add(CustomerToXml(item));
-        SaveXml(xml);
+        customers.Add(item);
+        SaveList(customers);
 
         LogManager.WriteToLog("Finished creating customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
@@ -66,16 +50,16 @@ internal class CustomerImplementation : ICustomer
     {
         LogManager.WriteToLog("Start reading customer by ID", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        var xml = LoadXml();
+        var customers = LoadList();
 
-        var customerElement = xml.Elements("Customer").FirstOrDefault(c => int.Parse(c.Element("Id")!.Value) == id);
+        var customer = customers.FirstOrDefault(c => c.Id == id);
 
-        if (customerElement == null)
+        if (customer == null)
             throw new DalIsNotExistException("Customer not found");
 
         LogManager.WriteToLog("Finished reading customer by ID", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        return XmlToCustomer(customerElement);
+        return customer;
     }
 
     public Customer? Read(Func<Customer, bool> filter)
@@ -85,31 +69,27 @@ internal class CustomerImplementation : ICustomer
         if (filter == null)
             throw new ArgumentNullException(nameof(filter));
 
-        var xml = LoadXml();
+        var customers = LoadList();
 
-        var customerElement = xml.Elements("Customer")
-            .Select(XmlToCustomer)
-            .FirstOrDefault(filter);
+        var customer = customers.FirstOrDefault(filter);
 
-        if (customerElement == null)
+        if (customer == null)
             throw new DalIsNotExistException("No customer matches filter");
 
         LogManager.WriteToLog("Finished reading customer by filter", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        return customerElement;
+        return customer;
     }
 
     public List<Customer?> ReadAll(Func<Customer, bool>? filter = null)
     {
         LogManager.WriteToLog("Start reading all customers", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        var xml = LoadXml();
-
-        var customers = xml.Elements("Customer").Select(XmlToCustomer);
+        var customers = LoadList();
 
         var result = (filter == null)
             ? customers
-            : customers.Where(filter);
+            : customers.Where(filter).ToList();
 
         LogManager.WriteToLog("Finished reading all customers", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
@@ -120,16 +100,16 @@ internal class CustomerImplementation : ICustomer
     {
         LogManager.WriteToLog("Start updating customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        var xml = LoadXml();
+        var customers = LoadList();
 
-        var customerElement = xml.Elements("Customer").FirstOrDefault(c => int.Parse(c.Element("Id")!.Value) == item.Id);
+        int index = customers.FindIndex(c => c.Id == item.Id);
 
-        if (customerElement == null)
+        if (index == -1)
             throw new DalIsNotExistException("Customer not found");
 
-        customerElement.ReplaceWith(CustomerToXml(item));
+        customers[index] = item;
 
-        SaveXml(xml);
+        SaveList(customers);
 
         LogManager.WriteToLog("Finished updating customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
     }
@@ -138,16 +118,16 @@ internal class CustomerImplementation : ICustomer
     {
         LogManager.WriteToLog("Start deleting customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
 
-        var xml = LoadXml();
+        var customers = LoadList();
 
-        var customerElement = xml.Elements("Customer").FirstOrDefault(c => int.Parse(c.Element("Id")!.Value) == id);
+        var customer = customers.FirstOrDefault(c => c.Id == id);
 
-        if (customerElement == null)
+        if (customer == null)
             throw new DalIsNotExistException("Customer not found");
 
-        customerElement.Remove();
+        customers.Remove(customer);
 
-        SaveXml(xml);
+        SaveList(customers);
 
         LogManager.WriteToLog("Finished deleting customer", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
     }

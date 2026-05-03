@@ -5,10 +5,11 @@ namespace Tools
 {
     public class LogManager
     {
+        // נתיב לתיקיית הלוגים
         static string LogDirPath = "Log";
 
 
-
+        // נתיב לקובץ הלוג הראשי (לא בשימוש ישירות, רק לדוגמה)
         static string LogFilePath = $"{LogDirPath}\\LogFile.txt";
 
         public static string getDirPartYear()
@@ -28,6 +29,7 @@ namespace Tools
 
         public static void WriteToLog(string message, string nameProject, string nameFanction)
         {
+            /// יצירת התיקיות והקובץ אם הם לא קיימים
             string logFilePath = getFilePath();
             string LogDirPath=Path.GetDirectoryName(logFilePath);
             if (!Directory.Exists(LogDirPath))
@@ -52,7 +54,7 @@ namespace Tools
         {
             if (!Directory.Exists(LogDirPath))
             {
-                Console.WriteLine("lod Directory not exist ");
+                Console.WriteLine("Log Directory not exist ");
                 return;
             }
             // שמירת הזמנים הנוכחים במשתנים

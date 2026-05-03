@@ -9,6 +9,7 @@ namespace BlApi
 
     public interface IProduct
     {
+        // כל פעולות הCRUD של המוצר
         int Create(BO.Product item);
         BO.Product? Read(int id);
         BO.Product? Read(Func<BO.Product, bool> filter);

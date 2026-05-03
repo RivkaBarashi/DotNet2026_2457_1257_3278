@@ -34,9 +34,10 @@
             // 
             // button1
             // 
-            button1.Location = new Point(463, 170);
+            button1.Location = new Point(694, 255);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(181, 80);
+            button1.Size = new Size(272, 120);
             button1.TabIndex = 0;
             button1.Text = "מנהל";
             button1.UseVisualStyleBackColor = true;
@@ -44,22 +45,26 @@
             // 
             // button2
             // 
-            button2.Location = new Point(180, 170);
+            button2.Location = new Point(270, 255);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
-            button2.Size = new Size(181, 80);
+            button2.Size = new Size(272, 120);
             button2.TabIndex = 1;
             button2.Text = "קופאי";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1273, 675);
             Controls.Add(button2);
             Controls.Add(button1);
+            Margin = new Padding(4);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 

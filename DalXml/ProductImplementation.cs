@@ -1,4 +1,5 @@
-﻿using DalApi;
+﻿
+using DalApi;
 using DalFacade.DalApi;
 using DalXml;
 using DO;
@@ -10,6 +11,7 @@ namespace Dal;
 
 internal class ProductImplementation : IProduct
 {
+    // כתיבה לקבצי XML
     private static readonly string path = Path.Combine(AppContext.BaseDirectory, "xml", "Products.xml");
 
     private static readonly XmlSerializer serializer = new(typeof(List<Product>));
@@ -134,4 +136,5 @@ internal class ProductImplementation : IProduct
 
         LogManager.WriteToLog("Finished deleting product", GetType().FullName, MethodBase.GetCurrentMethod()!.Name);
     }
+
 }

@@ -7,6 +7,7 @@ namespace BlImplementation
     internal class CustomerImplementation : ICustomer
     {
         private DalFacade.DalApi.IDal _dal = DalApi.Factory.Get;
+        
         public int Create(BO.Customer item)
         {
             try

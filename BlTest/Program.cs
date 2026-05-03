@@ -9,7 +9,6 @@ namespace BlTest
         static void Main(string[] args)
         {
             MainMenu();
-
         }
 
         static void MainMenu()

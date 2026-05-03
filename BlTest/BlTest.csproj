@@ -9,18 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
-
     <ProjectReference Include="..\DelTest\DelTest.csproj" />
-
-    <ProjectReference Include="..\DalXml\DalXml.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\xml\**\*.*">
-      <Link>xml\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-
   </ItemGroup>
 
 </Project>

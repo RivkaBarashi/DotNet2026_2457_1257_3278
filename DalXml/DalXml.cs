@@ -5,6 +5,7 @@ namespace Dal;
 
 internal sealed class DalXml : IDal
 {
+    // יצירת מופע של כל ממשק עם המימוש המתאים
     public ICustomer Customer => new CustomerImplementation();
     public IProduct Product => new ProductImplementation();
     public ISale Sale => new SaleImplementation();
