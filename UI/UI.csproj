@@ -12,8 +12,15 @@
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
   </PropertyGroup>
 
+<ItemGroup>
+  <ProjectReference Include="..\BL\BL.csproj" />
+  <ProjectReference Include="..\DalFacade\DalFacade.csproj" />
+  <ProjectReference Include="..\DalList\DalList.csproj" />
+  <ProjectReference Include="..\DalXml\DalXml.csproj" />
+  <ProjectReference Include="..\Tools\Tools.csproj" />
+</ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\BL\BL.csproj" />
-    <ProjectReference Include="..\Tools\Tools.csproj" />
+    <Folder Include="bin\Debug\net8.0-windows\xml\" />
   </ItemGroup>
 </Project>

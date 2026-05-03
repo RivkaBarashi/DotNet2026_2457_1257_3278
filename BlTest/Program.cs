@@ -9,10 +9,6 @@ namespace BlTest
         static void Main(string[] args)
         {
             MainMenu();
-<<<<<<< HEAD
-
-=======
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
         }
 
         static void MainMenu()
@@ -26,10 +22,7 @@ namespace BlTest
                     1 - Customer
                     2 - Product
                     3 - Sale
-<<<<<<< HEAD
-=======
                     4 - Order
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
                     """);
 
                 int.TryParse(Console.ReadLine(), out choice);
@@ -45,8 +38,6 @@ namespace BlTest
                     case 3:
                         SaleMenu();
                         break;
-<<<<<<< HEAD
-=======
                     case 4:
                         OrderMenu();
                         break;
@@ -141,7 +132,6 @@ namespace BlTest
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
                 }
 
             } while (choice != 0);

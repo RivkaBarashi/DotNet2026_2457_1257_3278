@@ -1,14 +1,17 @@
 ﻿using BlApi;
 using BO;
+using DalFacade.DalApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+
 
 namespace BlImplementation
 {
     internal class OrderImplementation : IOrder
     {
-        private DalFacade.DalApi.IDal _dal = DalApi.Factory.Get;
+        private IDal _dal = DalApi.Factory.Get;
 
         public List<BO.SaleInProduct> AddProductToOrder(BO.Order order, int productId, int amount)
         {
@@ -66,14 +69,13 @@ namespace BlImplementation
                     s.ProductId == product.ProductId &&
                     (s.StartSale == null || s.StartSale <= now) &&
                     (s.EndSale == null || s.EndSale >= now) &&
-                    product.Amount >= s.QuantityRequier &&
-                    (isFavorite || s.IsSaleToCustomer))
+                    product.Amount >= s.QuantityRequier
+                )
                 .Select(s => new BO.SaleInProduct
                 {
                     SaleId = s.Id,
                     QuantityForSale = s.QuantityRequier,
-                    Price = s.SalePrice ?? 0,
-                    ForEveryone = s.IsSaleToCustomer
+                    Price = s.SalePrice ?? 0
                 })
                 .OrderBy(s => s.Price)
                 .ToList();

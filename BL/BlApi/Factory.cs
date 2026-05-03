@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿using BlImplementation;
-=======
-﻿    using BlImplementation;
->>>>>>> ba9648521294c3265027d0de12859a2717a89e80
+using BlImplementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
